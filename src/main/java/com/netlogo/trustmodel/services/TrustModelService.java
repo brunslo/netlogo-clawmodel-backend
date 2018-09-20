@@ -12,6 +12,11 @@ import java.util.Map;
 public class TrustModelService {
     // TODO: These should really be in a messages.properties and obtained through a org.springframework.context.MessageSource
 
+
+    // TickCount
+
+    @Value("${global-tickCount}")
+    private String tickCount;
     // Sliders
     @Value("${slider-newClients}")
     private String newClients;
@@ -187,6 +192,8 @@ public class TrustModelService {
 
     public Map<String, String> generateReporterSourceMap() {
         val reporterSourceMap = new HashMap<String, String>();
+
+        reporterSourceMap.put("tickCount", tickCount);
 
         // Labels initial values
         reporterSourceMap.put("clientsGreater5Yrs_Label", clientsGreater5Yrs);

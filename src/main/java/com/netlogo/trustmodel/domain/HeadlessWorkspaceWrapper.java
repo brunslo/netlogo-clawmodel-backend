@@ -118,7 +118,8 @@ public class HeadlessWorkspaceWrapper {
     private List<Plot> generateCurrentPlots() {
         Assert.isTrue(isReady(), "workspace is not ready");
 
-        return Stream.of(workspace.plotManager().getPlotNames())
+        return Stream.of(
+                workspace.plotManager().getPlotNames())
                 .map(pn -> workspace.plotManager().getPlot(pn))
                 .map(Plot::create)
                 .collect(Collectors.toList());
@@ -172,7 +173,9 @@ public class HeadlessWorkspaceWrapper {
 
     @Value
     public static class View {
-        public static final View EMPTY = new View(Utils.EMPTY_IMAGE_STRING, 1, 1);
+        public static final View EMPTY = new View(0,Utils.EMPTY_IMAGE_STRING, 1, 1);
+
+        private long tickCount;
 
         @NonNull
         private String imgSrc;
@@ -184,7 +187,7 @@ public class HeadlessWorkspaceWrapper {
         static View create(@NonNull HeadlessWorkspace headlessWorkspace) {
             val image = headlessWorkspace.exportView();
 
-            return new View(
+            return new View((long) headlessWorkspace.world().ticks(),
                     Utils.encodeImageToBase64(image),
                     image.getHeight(),
                     image.getWidth()
