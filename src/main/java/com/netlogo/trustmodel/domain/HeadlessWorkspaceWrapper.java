@@ -1,6 +1,5 @@
 package com.netlogo.trustmodel.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 import lombok.Value;
@@ -200,16 +199,12 @@ public class HeadlessWorkspaceWrapper {
         @NonNull
         private String name;
 
-        @JsonProperty("xMin")
         private double xMin;
 
-        @JsonProperty("xMax")
         private double xMax;
 
-        @JsonProperty("yMin")
         private double yMin;
 
-        @JsonProperty("yMax")
         private double yMax;
 
         private boolean autoPlotOn;
@@ -231,6 +226,30 @@ public class HeadlessWorkspaceWrapper {
                             .map(Pen::create)
                             .collect(Collectors.toList())
             );
+        }
+
+        // Required to fix conflict between Jackson and Lombok naming conventions
+        @JsonProperty("xMin")
+        public double getXMin() {
+            return xMin;
+        }
+
+        // Required to fix conflict between Jackson and Lombok naming conventions
+        @JsonProperty("xMax")
+        public double getXMax() {
+            return xMax;
+        }
+
+        // Required to fix conflict between Jackson and Lombok naming conventions
+        @JsonProperty("yMin")
+        public double getYMin() {
+            return yMin;
+        }
+
+        // Required to fix conflict between Jackson and Lombok naming conventions
+        @JsonProperty("yMax")
+        public double getYMax() {
+            return yMax;
         }
 
         @Value
