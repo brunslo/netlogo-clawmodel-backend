@@ -12,11 +12,10 @@ import java.util.Map;
 public class TrustModelService {
     // TODO: These should really be in a messages.properties and obtained through a org.springframework.context.MessageSource
 
-
     // TickCount
-
     @Value("${global-tickCount}")
     private String tickCount;
+
     // Sliders
     @Value("${slider-newClients}")
     private String newClients;
@@ -195,20 +194,22 @@ public class TrustModelService {
 
         reporterSourceMap.put("tickCount", tickCount);
 
+        // Modifiers initial values
+        reporterSourceMap.put("injurySeverity_Modifier", injurySeverity);
+        reporterSourceMap.put("atFaultStatus_Modifier", atFaultStatus);
+        reporterSourceMap.put("healthStatus_Modifier", healthStatus);
+        reporterSourceMap.put("previousInjury_Modifier", previousInjury);
+        reporterSourceMap.put("employmentStatus_Modifier", employmentStatus);
+        reporterSourceMap.put("vulnerableStatus_Modifier", vulnerableStatus);
+        reporterSourceMap.put("gender_Modifier", gender);
+        reporterSourceMap.put("age_Modifier", age);
+        reporterSourceMap.put("claimDuration_Modifier", claimDuration);
+        reporterSourceMap.put("injuryClassification_Modifier", injuryClassification);
+        reporterSourceMap.put("education_Modifier", education);
+
         // Labels initial values
-        reporterSourceMap.put("clientsGreater5Yrs_Label", clientsGreater5Yrs);
-        reporterSourceMap.put("injurySeverity_Label", injurySeverity);
-        reporterSourceMap.put("atFaultStatus_Label", atFaultStatus);
-        reporterSourceMap.put("healthStatus_Label", healthStatus);
-        reporterSourceMap.put("previousInjury_Label", previousInjury);
+        reporterSourceMap.put("clientsMoreThan5Years_Label", clientsGreater5Yrs);
         reporterSourceMap.put("embeddedness_Label", embeddedness);
-        reporterSourceMap.put("employmentStatus_Label", employmentStatus);
-        reporterSourceMap.put("vulnerableStatus_Label", vulnerableStatus);
-        reporterSourceMap.put("gender_Label", gender);
-        reporterSourceMap.put("age_Label", age);
-        reporterSourceMap.put("claimDuration_Label", claimDuration);
-        reporterSourceMap.put("injuryClassification_Label", injuryClassification);
-        reporterSourceMap.put("education_Label", education);
         reporterSourceMap.put("drift_Label", drift);
         reporterSourceMap.put("waitListEffect_Label", waitListEffect);
         reporterSourceMap.put("driftWaitListEffect_Label", driftWaitListEffect);
@@ -224,16 +225,16 @@ public class TrustModelService {
         reporterSourceMap.put("goodExit24Months_Label", goodExit24Months);
         reporterSourceMap.put("goodExit36Months_Label", goodExit36Months);
         reporterSourceMap.put("neutralExit36PlusMonths_Label", neutralExit36PlusMonths);
-        reporterSourceMap.put("bottom6Mo_Label", bottom6Mo);
-        reporterSourceMap.put("bottom18Mo_Label", bottom18Mo);
-        reporterSourceMap.put("bottom24Mo_Label", bottom24Mo);
-        reporterSourceMap.put("bottom36Mo_Label", bottom36Mo);
-        reporterSourceMap.put("bottom36PlusMo_Label", bottom36PlusMo);
-        reporterSourceMap.put("commonLawNum_Label", commonLawNum);
+        reporterSourceMap.put("bottom6Months_Label", bottom6Mo);
+        reporterSourceMap.put("bottom18Months_Label", bottom18Mo);
+        reporterSourceMap.put("bottom24Months_Label", bottom24Mo);
+        reporterSourceMap.put("bottom36Months_Label", bottom36Mo);
+        reporterSourceMap.put("bottom36PlusMonths_Label", bottom36PlusMo);
+        reporterSourceMap.put("commonLawNumber_Label", commonLawNum);
         reporterSourceMap.put("countClient_Label", countClient);
-        reporterSourceMap.put("commonLawPercent_Label", commonLawPercent);
-        reporterSourceMap.put("percentGoodExit_Label", percentGoodExit);
-        reporterSourceMap.put("percentBadExit_Label", percentBadExit);
+        reporterSourceMap.put("commonLawRatio_Label", commonLawPercent);
+        reporterSourceMap.put("goodExitRatio_Label", percentGoodExit);
+        reporterSourceMap.put("badExitRatio_Label", percentBadExit);
 
         // Sliders initial values
         reporterSourceMap.put("newClients_Slider", newClients);
