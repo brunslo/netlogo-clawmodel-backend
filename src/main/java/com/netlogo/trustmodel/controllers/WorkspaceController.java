@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @RestController
-@RequestMapping("/workspace")
+@RequestMapping("/api/workspace")
 @RequiredArgsConstructor
 public class WorkspaceController {
     @NonNull
