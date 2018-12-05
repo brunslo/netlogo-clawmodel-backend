@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/trust-model")
+@RequestMapping("/api/trust-model")
 @RequiredArgsConstructor
 public class TrustModelController {
     @NonNull
