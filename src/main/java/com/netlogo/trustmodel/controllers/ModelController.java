@@ -1,6 +1,6 @@
 package com.netlogo.trustmodel.controllers;
 
-import com.netlogo.trustmodel.services.TrustModelService;
+import com.netlogo.trustmodel.services.ModelService;
 import com.netlogo.trustmodel.services.WorkspaceService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/trust-model")
+@RequestMapping("/api/model")
 @RequiredArgsConstructor
-public class TrustModelController {
+public class ModelController {
     @NonNull
     private final WorkspaceService workspaceService;
 
     @NonNull
-    private final TrustModelService trustModelService;
+    private final ModelService modelService;
 
     @PostMapping("/register-reporters")
     public ResponseEntity<?> registerReporters() {
         Assert.isTrue(workspaceService.isReady(), "workspace is not ready");
 
         workspaceService.clearRegisteredReporters();
-        workspaceService.registerReporters(trustModelService.generateReporterSourceMap());
+        workspaceService.registerReporters(modelService.generateReporterSourceMap());
 
         return ResponseEntity.ok().build();
     }
@@ -35,9 +35,9 @@ public class TrustModelController {
         Assert.isTrue(workspaceService.isReady(), "workspace is not ready");
 
         workspaceService.clearRegisteredReporters();
-        workspaceService.registerReporters(trustModelService.generateReporterSourceMap());
-
+        workspaceService.registerReporters(modelService.generateReporterSourceMap());
         workspaceService.setup();
+
         return ResponseEntity.ok().build();
     }
 

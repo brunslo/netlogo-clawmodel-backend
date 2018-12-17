@@ -1,262 +1,265 @@
 package com.netlogo.trustmodel.services;
 
 import lombok.val;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Consider moving all this to the trust-model UI in order to make the backend as model agnostic as possible
 @Service
-public class TrustModelService {
-    // TODO: These should really be in a messages.properties and obtained through a org.springframework.context.MessageSource
+@Profile("trust")
+public class TrustModelService implements ModelService {
+    private static final String MODEL_FILE_PATH = "models/TrustModel.nlogo";
 
-    // TickCount
-    @Value("${global-tickCount}")
-    private String tickCount;
+    @Override
+    public String getModelFilePath() {
+        return MODEL_FILE_PATH;
+    }
 
-    // Sliders
-    @Value("${slider-newClients}")
-    private String newClients;
-
-    @Value("${slider_roadSafetyEffectiveness}")
-    private String roadSafetyEffectiveness;
-
-    @Value("${slider_injuryRecovery}")
-    private String injuryRecovery;
-
-    @Value("${slider_randomVariation}")
-    private String randomVariation;
-
-    @Value("${slider_recalculateDrift}")
-    private String slider_recalculateDrift;
-
-    @Value("${slider_shockZone1Starts}")
-    private String shockZone1Starts;
-
-    @Value("${slider_shockZone1Ends}")
-    private String shockZone1Ends;
-
-    @Value("${slider_shockZone2Starts}")
-    private String shockZone2Starts;
-
-    @Value("${slider_shockZone2Ends}")
-    private String shockZone2Ends;
-
-    @Value("${slider_reliefZone1Starts}")
-    private String reliefZone1Starts;
-
-    @Value("${slider_reliefZone1Ends}")
-    private String reliefZone1Ends;
-
-    @Value("${slider_reliefZone2Starts}")
-    private String reliefZone2Starts;
-
-    @Value("${slider_reliefZone2Ends}")
-    private String reliefZone2Ends;
-
-    @Value("${slider_shockZone1Increase}")
-    private String shockZone1Increase;
-
-    @Value("${slider_shockZone2Increase}")
-    private String shockZone2Increase;
-
-    @Value("${slider_reliefZone1Decrease}")
-    private String reliefZone1Decrease;
-
-    @Value("${slider_reliefZone2Decrease}")
-    private String reliefZone2Decrease;
-
-    @Value("${slider_driftModifier}")
-    private String driftModifier;
-
-    @Value("${slider_solicitors}")
-    private String solicitors;
-
-    // Labels
-    @Value("${label-clientsGreater5Yrs}")
-    private String clientsGreater5Yrs;
-
-    @Value("${label-injurySeverity}")
-    private String injurySeverity;
-
-    @Value("${label-atFaultStatus}")
-    private String atFaultStatus;
-
-    @Value("${label-healthStatus}")
-    private String healthStatus;
-
-    @Value("${label-previousInjury}")
-    private String previousInjury;
-
-    @Value("${label-embeddedness}")
-    private String embeddedness;
-
-    @Value("${label-employmentStatus}")
-    private String employmentStatus;
-
-    @Value("${label-vulnerableStatus}")
-    private String vulnerableStatus;
-
-    @Value("${label-gender}")
-    private String gender;
-
-    @Value("${label-age}")
-    private String age;
-
-    @Value("${label-claimDuration}")
-    private String claimDuration;
-
-    @Value("${label-injuryClassification}")
-    private String injuryClassification;
-
-    @Value("${label-education}")
-    private String education;
-
-    @Value("${label-drift}")
-    private String drift;
-
-    @Value("${label-waitListEffect}")
-    private String waitListEffect;
-
-    @Value("${label-driftWaitListEffect}")
-    private String driftWaitListEffect;
-
-    @Value("${label-currentDrift}")
-    private String currentDrift;
-
-    @Value("${label-time}")
-    private String time;
-
-    @Value("${label-recalculateDrift}")
-    private String label_recalculateDrift;
-
-    @Value("${label-costs}")
-    private String costs;
-
-    @Value("${label-meanRecoveryStatus}")
-    private String meanRecoveryStatus;
-
-    @Value("${label-totalClients}")
-    private String totalClients;
-
-    @Value("${label-exit}")
-    private String exit;
-
-    @Value("${label-goodExit6Months}")
-    private String goodExit6Months;
-
-    @Value("${label-goodExit18Months}")
-    private String goodExit18Months;
-
-    @Value("${label-goodExit24Months}")
-    private String goodExit24Months;
-
-    @Value("${label-goodExit36Months}")
-    private String goodExit36Months;
-
-    @Value("${label-neutralExit36PlusMonths}")
-    private String neutralExit36PlusMonths;
-
-    @Value("${label-bottom6Mo}")
-    private String bottom6Mo;
-
-    @Value("${label-bottom18Mo}")
-    private String bottom18Mo;
-
-    @Value("${label-bottom24Mo}")
-    private String bottom24Mo;
-
-    @Value("${label-bottom36Mo}")
-    private String bottom36Mo;
-
-    @Value("${label-bottom36PlusMo}")
-    private String bottom36PlusMo;
-
-    @Value("${label-commonLaw#}")
-    private String commonLawNum;
-
-    @Value("${label-countClient}")
-    private String countClient;
-
-    @Value("${label-commonLaw%}")
-    private String commonLawPercent;
-
-    @Value("${label-percentGoodExit}")
-    private String percentGoodExit;
-
-    @Value("${label-percentBadExit}")
-    private String percentBadExit;
-
+    @Override
     public Map<String, String> generateReporterSourceMap() {
-        val reporterSourceMap = new HashMap<String, String>();
+        val map = new HashMap<String, String>();
 
-        reporterSourceMap.put("tickCount", tickCount);
+        // World State
+        map.put("tickCount", "ticks");
 
-        // Modifiers initial values
-        reporterSourceMap.put("injurySeverity_Modifier", injurySeverity);
-        reporterSourceMap.put("atFaultStatus_Modifier", atFaultStatus);
-        reporterSourceMap.put("healthStatus_Modifier", healthStatus);
-        reporterSourceMap.put("previousInjury_Modifier", previousInjury);
-        reporterSourceMap.put("employmentStatus_Modifier", employmentStatus);
-        reporterSourceMap.put("vulnerableStatus_Modifier", vulnerableStatus);
-        reporterSourceMap.put("gender_Modifier", gender);
-        reporterSourceMap.put("age_Modifier", age);
-        reporterSourceMap.put("claimDuration_Modifier", claimDuration);
-        reporterSourceMap.put("injuryClassification_Modifier", injuryClassification);
-        reporterSourceMap.put("education_Modifier", education);
+        // Modifiers
+        map.put(
+                "injurySeverity_Modifier",
+                "mean [ InjurySeverity ] of clients"
+        );
+        map.put(
+                "atFaultStatus_Modifier",
+                "mean [ AtFaultStatus ] of clients"
+        );
+        map.put(
+                "healthStatus_Modifier",
+                "mean [ HealthStatus ] of clients"
+        );
+        map.put(
+                "previousInjury_Modifier",
+                "mean [ PreviousInjury ] of clients"
+        );
+        map.put(
+                "employmentStatus_Modifier",
+                "mean [ EmploymentStatus ] of clients"
+        );
+        map.put(
+                "vulnerableStatus_Modifier",
+                "mean [ VulnerableStatus ] of clients"
+        );
+        map.put(
+                "gender_Modifier",
+                "mean [ Gender ] of clients"
+        );
+        map.put(
+                "age_Modifier",
+                "mean [ Age ] of clients"
+        );
+        map.put(
+                "claimDuration_Modifier",
+                "mean [ ClaimDuration ] of clients"
+        );
+        map.put(
+                "injuryClassification_Modifier",
+                "mean [ InjuryClassification ] of clients"
+        );
+        map.put(
+                "education_Modifier",
+                "mean [ Education ] of clients"
+        );
 
-        // Labels initial values
-        reporterSourceMap.put("clientsMoreThan5Years_Label", clientsGreater5Yrs);
-        reporterSourceMap.put("embeddedness_Label", embeddedness);
-        reporterSourceMap.put("drift_Label", drift);
-        reporterSourceMap.put("waitListEffect_Label", waitListEffect);
-        reporterSourceMap.put("driftWaitListEffect_Label", driftWaitListEffect);
-        reporterSourceMap.put("currentDrift_Label", currentDrift);
-        reporterSourceMap.put("time_Label", "time");
-        reporterSourceMap.put("recalculateDrift_Label", label_recalculateDrift);
-        reporterSourceMap.put("costs_Label", costs);
-        reporterSourceMap.put("meanRecoveryStatus_Label", meanRecoveryStatus);
-        reporterSourceMap.put("totalClients_Label", totalClients);
-        reporterSourceMap.put("exit_Label", exit);
-        reporterSourceMap.put("goodExit6Months_Label", goodExit6Months);
-        reporterSourceMap.put("goodExit18Months_Label", goodExit18Months);
-        reporterSourceMap.put("goodExit24Months_Label", goodExit24Months);
-        reporterSourceMap.put("goodExit36Months_Label", goodExit36Months);
-        reporterSourceMap.put("neutralExit36PlusMonths_Label", neutralExit36PlusMonths);
-        reporterSourceMap.put("bottom6Months_Label", bottom6Mo);
-        reporterSourceMap.put("bottom18Months_Label", bottom18Mo);
-        reporterSourceMap.put("bottom24Months_Label", bottom24Mo);
-        reporterSourceMap.put("bottom36Months_Label", bottom36Mo);
-        reporterSourceMap.put("bottom36PlusMonths_Label", bottom36PlusMo);
-        reporterSourceMap.put("commonLawNumber_Label", commonLawNum);
-        reporterSourceMap.put("countClient_Label", countClient);
-        reporterSourceMap.put("commonLawRatio_Label", commonLawPercent);
-        reporterSourceMap.put("goodExitRatio_Label", percentGoodExit);
-        reporterSourceMap.put("badExitRatio_Label", percentBadExit);
+        // Labels
+        map.put(
+                "clientsMoreThan5Years_Label",
+                "count clients with [ xcor > 250 ]"
+        );
+        map.put(
+                "embeddedness_Label",
+                "mean [ Embeddedness ] of clients"
+        );
+        map.put(
+                "drift_Label",
+                "mean [ Drift ] of clients"
+        );
+        map.put(
+                "waitListEffect_Label",
+                "mean [ Waitlisteffect ] of clients"
+        );
+        map.put(
+                "driftWaitListEffect_Label",
+                "mean [ Drift - Waitlisteffect ] of clients"
+        );
+        map.put(
+                "currentDrift_Label",
+                "CurrentDrift"
+        );
+        map.put(
+                "time_Label",
+                "time"
+        );
+        map.put(
+                "recalculateDrift_Label",
+                "RecalculateDrift"
+        );
+        map.put(
+                "costs_Label",
+                "costs"
+        );
+        map.put(
+                "meanRecoveryStatus_Label",
+                "mean [ ycor ] of clients + 100"
+        );
+        map.put(
+                "totalClients_Label",
+                "TotalClients"
+        );
+        map.put(
+                "exit_Label",
+                "TotalClients - count clients"
+        );
+        map.put(
+                "goodExit6Months_Label",
+                "GoodExit6Months"
+        );
+        map.put(
+                "goodExit18Months_Label",
+                "GoodExit18Months"
+        );
+        map.put(
+                "goodExit24Months_Label",
+                "GoodExit24Months"
+        );
+        map.put(
+                "goodExit36Months_Label",
+                "GoodExit36Months"
+        );
+        map.put(
+                "neutralExit36PlusMonths_Label",
+                "NeutralExit36PlusMonths"
+        );
+        map.put(
+                "bottom6Months_Label",
+                "BadExit6Months"
+        );
+        map.put(
+                "bottom18Months_Label",
+                "BadExit18Months"
+        );
+        map.put(
+                "bottom24Months_Label",
+                "BadExit24Months"
+        );
+        map.put(
+                "bottom36Months_Label",
+                "BadExit36Months"
+        );
+        map.put(
+                "bottom36PlusMonths_Label",
+                "BadExit36PlusMonths"
+        );
+        map.put(
+                "commonLawNumber_Label",
+                "CommonLawCapture"
+        );
+        map.put(
+                "countClient_Label",
+                "count clients"
+        );
+        map.put(
+                "commonLawRatio_Label",
+                "100 * CommonLawCapture / (TotalClients - count clients)"
+        );
+        map.put(
+                "goodExitRatio_Label",
+                "100 * ( GoodExit6Months + GoodExit18Months + GoodExit24Months + GoodExit36Months ) / ( TotalClients - count clients )"
+        );
+        map.put(
+                "badExitRatio_Label",
+                "100 * count clients with [RockBottom = 1] / (TotalClients - count clients)"
+        );
 
-        // Sliders initial values
-        reporterSourceMap.put("newClients_Slider", newClients);
-        reporterSourceMap.put("roadSafetyEffectiveness_Slider", roadSafetyEffectiveness);
-        reporterSourceMap.put("injuryRecovery_Slider", injuryRecovery);
-        reporterSourceMap.put("randomVariation_Slider", randomVariation);
-        reporterSourceMap.put("recalculateDrift_Slider", slider_recalculateDrift);
-        reporterSourceMap.put("shockZone1Starts_Slider", shockZone1Starts);
-        reporterSourceMap.put("shockZone1Ends_Slider", shockZone1Ends);
-        reporterSourceMap.put("shockZone2Starts_Slider", shockZone2Starts);
-        reporterSourceMap.put("shockZone2Ends_Slider", shockZone2Ends);
-        reporterSourceMap.put("reliefZone1Starts_Slider", reliefZone1Starts);
-        reporterSourceMap.put("reliefZone1Ends_Slider", reliefZone1Ends);
-        reporterSourceMap.put("reliefZone2Starts_Slider", reliefZone2Starts);
-        reporterSourceMap.put("reliefZone2Ends_Slider", reliefZone2Ends);
-        reporterSourceMap.put("shockZone1Increase_Slider", shockZone1Increase);
-        reporterSourceMap.put("shockZone2Increase_Slider", shockZone2Increase);
-        reporterSourceMap.put("reliefZone1Decrease_Slider", reliefZone1Decrease);
-        reporterSourceMap.put("reliefZone2Decrease_Slider", reliefZone2Decrease);
-        reporterSourceMap.put("driftModifier_Slider", driftModifier);
-        reporterSourceMap.put("solicitors_Slider", solicitors);
+        // Sliders
+        map.put(
+                "newClients_Slider",
+                "NewClients"
+        );
+        map.put(
+                "roadSafetyEffectiveness_Slider",
+                "Road_Safety_Effectiveness"
+        );
+        map.put(
+                "injuryRecovery_Slider",
+                "InjuryRecovery"
+        );
+        map.put(
+                "randomVariation_Slider",
+                "RandomVariation"
+        );
+        map.put(
+                "recalculateDrift_Slider",
+                "RecalculateDrift"
+        );
+        map.put(
+                "shockZone1Starts_Slider",
+                "ShockZone1Starts"
+        );
+        map.put(
+                "shockZone1Ends_Slider",
+                "ShockZone1Ends"
+        );
+        map.put(
+                "shockZone2Starts_Slider",
+                "ShockZone2Starts"
+        );
+        map.put(
+                "shockZone2Ends_Slider",
+                "ShockZone2Ends"
+        );
+        map.put(
+                "reliefZone1Starts_Slider",
+                "ReliefZone1Starts"
+        );
+        map.put(
+                "reliefZone1Ends_Slider",
+                "ReliefZone1Ends"
+        );
+        map.put(
+                "reliefZone2Starts_Slider",
+                "ReliefZone2Starts"
+        );
+        map.put(
+                "reliefZone2Ends_Slider",
+                "ReliefZone2Ends"
+        );
+        map.put(
+                "shockZone1Increase_Slider",
+                "ShockZone1Increase"
+        );
+        map.put(
+                "shockZone2Increase_Slider",
+                "ShockZone2Increase"
+        );
+        map.put(
+                "reliefZone1Decrease_Slider",
+                "ReliefZone1Decrease"
+        );
+        map.put(
+                "reliefZone2Decrease_Slider",
+                "ReliefZone2Decrease"
+        );
+        map.put(
+                "driftModifier_Slider",
+                "DriftModifier"
+        );
+        map.put(
+                "solicitors_Slider",
+                "Solicitors"
+        );
 
-        return reporterSourceMap;
+        return map;
     }
 }
