@@ -1,8 +1,10 @@
 package com.netlogo.trustmodel.domain;
 
+import com.netlogo.trustmodel.services.ModelService;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.nlogo.headless.HeadlessWorkspace;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
@@ -12,20 +14,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class HeadlessWorkspaceWrapperFactory {
-    @Value("${netlogo-wrapper.model-file-path}")
-    private String modelFilePath;
+    @NonNull
+    private final ModelService modelService;
 
     public HeadlessWorkspaceWrapper create() throws IOException {
         val workspace = HeadlessWorkspace.newInstance();
 
-        workspace.open(modelFilePath);
+        workspace.open(modelService.getModelFilePath());
 
         return new HeadlessWorkspaceWrapper(workspace);
     }
 
     @PostConstruct
     private void init() throws FileNotFoundException {
-        Assert.isTrue(ResourceUtils.getFile(modelFilePath).exists(), "file must exist at modelFilePath: " + modelFilePath);
+        Assert.isTrue(
+                ResourceUtils.getFile(modelService.getModelFilePath()).exists(),
+                "file must exist at modelFilePath: " + modelService.getModelFilePath()
+        );
     }
 }

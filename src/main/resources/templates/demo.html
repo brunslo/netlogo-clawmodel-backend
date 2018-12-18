@@ -32,17 +32,17 @@
             var plotsSource;
 
             document.getElementById("start-stream").addEventListener("click", function () {
-                viewSource = new EventSource("http://localhost:8080/workspace/stream-view");
+                viewSource = new EventSource("http://localhost:8080/api/workspace/stream-view");
                 viewSource.onmessage = function (event) {
                     document.getElementById("demo-view").src = JSON.parse(event.data).imgSrc;
                 };
 
-                reportsSource = new EventSource("http://localhost:8080/workspace/stream-reports");
+                reportsSource = new EventSource("http://localhost:8080/api/workspace/stream-reports");
                 reportsSource.onmessage = function (event) {
                     document.getElementById("demo-reports").innerHTML = JSON.stringify(JSON.parse(event.data), undefined, 2);
                 };
 
-                plotsSource = new EventSource("http://localhost:8080/workspace/stream-plots");
+                plotsSource = new EventSource("http://localhost:8080/api/workspace/stream-plots");
                 plotsSource.onmessage = function (event) {
                     document.getElementById("demo-plots").innerHTML = JSON.stringify(JSON.parse(event.data), undefined, 2);
                 };
@@ -55,11 +55,11 @@
             });
 
             document.getElementById("register-reports").addEventListener("click", function () {
-                fetch('http://localhost:8080/trust-model/register-reporters', {method: 'post'});
+                fetch('http://localhost:8080/api/model/register-reporters', {method: 'post'});
             });
 
             document.getElementById("go").addEventListener("click", function () {
-                fetch('http://localhost:8080/workspace/go', {method: 'post'})
+                fetch('http://localhost:8080/api/workspace/go', {method: 'post'})
                     .then(function (response) {
                         response.json().then(function (data) {
                             document.getElementById("demo-tick-count").innerText = data;
@@ -68,7 +68,7 @@
             });
 
             document.getElementById("setup").addEventListener("click", function () {
-                fetch('http://localhost:8080/trust-model/setup', {method: 'post'});
+                fetch('http://localhost:8080/api/model/setup', {method: 'post'});
             });
         </script>
     </body>
