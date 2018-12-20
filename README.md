@@ -5,7 +5,7 @@ Spring boot backend with wrapper APIs over NetLogo application for TrustModel.
 Dependencies:
 
 1. Java SDK 1.8 (Java 8)
-2. Gradle 4.8
+2. Maven
 
 
 Note:
