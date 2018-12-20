@@ -27,12 +27,6 @@ public class ClawModelService implements ModelService {
                 "ticks"
         );
 
-        // Buttons
-        map.put(
-                "resetPatches_Button",
-                "ask patches [ set pcolor black ]"
-        );
-
         // Sliders
         map.put(
                 "newClients_Slider",
