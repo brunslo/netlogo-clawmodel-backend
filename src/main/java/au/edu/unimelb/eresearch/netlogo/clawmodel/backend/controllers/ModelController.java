@@ -1,7 +1,7 @@
-package com.netlogo.trustmodel.controllers;
+package au.edu.unimelb.eresearch.netlogo.clawmodel.backend.controllers;
 
-import com.netlogo.trustmodel.services.ModelService;
-import com.netlogo.trustmodel.services.WorkspaceService;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.services.ModelService;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.services.WorkspaceService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

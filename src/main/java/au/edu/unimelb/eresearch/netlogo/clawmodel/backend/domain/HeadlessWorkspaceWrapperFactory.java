@@ -1,6 +1,6 @@
-package com.netlogo.trustmodel.domain;
+package au.edu.unimelb.eresearch.netlogo.clawmodel.backend.domain;
 
-import com.netlogo.trustmodel.services.ModelService;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.services.ModelService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.val;

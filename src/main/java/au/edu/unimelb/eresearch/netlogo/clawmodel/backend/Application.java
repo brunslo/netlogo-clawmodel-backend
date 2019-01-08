@@ -1,4 +1,4 @@
-package com.netlogo.trustmodel;
+package au.edu.unimelb.eresearch.netlogo.clawmodel.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

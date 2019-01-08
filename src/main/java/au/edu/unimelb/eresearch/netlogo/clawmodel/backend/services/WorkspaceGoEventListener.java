@@ -1,7 +1,7 @@
-package com.netlogo.trustmodel.services;
+package au.edu.unimelb.eresearch.netlogo.clawmodel.backend.services;
 
-import com.netlogo.trustmodel.domain.HeadlessWorkspaceWrapper.World;
-import com.netlogo.trustmodel.services.WorkspaceService.WorkspaceGoEvent;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.domain.HeadlessWorkspaceWrapper.World;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.services.WorkspaceService.WorkspaceGoEvent;
 import lombok.NonNull;
 import lombok.val;
 import org.springframework.context.ApplicationListener;

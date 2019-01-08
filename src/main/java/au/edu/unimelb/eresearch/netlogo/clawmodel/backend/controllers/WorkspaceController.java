@@ -1,9 +1,9 @@
-package com.netlogo.trustmodel.controllers;
+package au.edu.unimelb.eresearch.netlogo.clawmodel.backend.controllers;
 
-import com.netlogo.trustmodel.domain.HeadlessWorkspaceWrapper.Plot;
-import com.netlogo.trustmodel.domain.HeadlessWorkspaceWrapper.View;
-import com.netlogo.trustmodel.domain.HeadlessWorkspaceWrapper.World;
-import com.netlogo.trustmodel.services.WorkspaceService;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.domain.HeadlessWorkspaceWrapper.Plot;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.domain.HeadlessWorkspaceWrapper.View;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.domain.HeadlessWorkspaceWrapper.World;
+import au.edu.unimelb.eresearch.netlogo.clawmodel.backend.services.WorkspaceService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
