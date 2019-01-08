@@ -15,8 +15,8 @@ RUN groupadd -g 999 appuser && \
 
 COPY models /models
 COPY extensions /extensions
-COPY --from=builder --chown=appuser:appuser /build/target/backend-*.jar /backend.jar
+COPY --from=builder --chown=appuser:appuser /build/target/clawmodel-backend-*.jar /clawmodel-backend.jar
 
 USER appuser
 
-CMD "/backend.jar"
+CMD "/clawmodel-backend.jar"
