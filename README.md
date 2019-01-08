@@ -1,13 +1,13 @@
-# NetLogo Trust model backend
-Spring boot backend with wrapper APIs over NetLogo application for TrustModel.
+# Netlogo CLAW Model Backend
+## Overview
+This project provides a RESTful backend to make the [CLAW Netlogo model](https://github.com/JTHooker/CLAW-Model) interactive via a web interface.
 
-
-Dependencies:
-
-1. Java SDK 1.8 (Java 8)
-2. Maven
-
-
-Note:
-To see the UI component as well along with this API backend. Get clone the UI repo from https://github.com/shengwu1026/netlogo-trustmodel-ui
-
+## Usage
+The project can be built directly using the Java 1.8 SDK and Maven to package into an executable JAR:
+```
+mvn clean package
+``` 
+It can also be built and packaged into a Docker container directly, without any Java/Maven specific dependencies:
+```docker
+docker build -t netlogo-clawmodel-backend-<version>
+```
