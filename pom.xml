@@ -4,7 +4,7 @@
 
     <groupId>au.edu.unimelb.eresearch.netlogo</groupId>
     <artifactId>clawmodel-backend</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>CLAW Model Backend</name>
